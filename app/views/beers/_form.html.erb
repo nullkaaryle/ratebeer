@@ -20,7 +20,7 @@
 
   <div class="field">
     <%= form.label :style %>
-    <%= form.text_field :style %>
+    <%= form.select :style, options_for_select([ ["Weizen"], ["Lager"], ["Pale ale"], ["IPA"], ["Porter"]  ]) %>
   </div>
 
   <div class="field">
