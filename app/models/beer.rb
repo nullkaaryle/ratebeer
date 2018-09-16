@@ -6,4 +6,8 @@ class Beer < ApplicationRecord
         Rating.where(beer_id: self.id).average(:score)
     end
 
+    def to_s
+        "#{self.name} (#{self.brewery.name})"
+    end
+
 end
