@@ -64,3 +64,8 @@ Naming/UncommunicativeMethodParamName:
 
 Metrics/BlockLength:
   Enabled: false
+
+Metrics/MethodLength:
+  Enabled: true
+  CountComments: false
+  Max: 15
