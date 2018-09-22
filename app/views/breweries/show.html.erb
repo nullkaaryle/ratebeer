@@ -18,6 +18,10 @@
  <% end %>
 </p>
 
-<%= link_to 'Edit', edit_brewery_path(@brewery) %> |
-<%= link_to 'Back', breweries_path %> |
-<%= link_to 'List of beers', beers_path %>
+<% if  @brewery.ratings.count > 0 %>
+  Has <%= pluralize(@brewery.ratings.count, 'rating') %>, average <%= @brewery.average_rating.round(1) %>
+<% end %>
+
+<br>
+<br>
+<%= link_to 'Edit', edit_brewery_path(@brewery) %>
