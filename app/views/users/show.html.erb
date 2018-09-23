@@ -5,5 +5,19 @@
   <%= @user.username %>
 </p>
 
+<% if  @user.ratings.count > 0 %>
+  <p>Has made <%= pluralize(@user.ratings.count, 'rating') %> , average rating <%= @user.average_rating.round(1) %></p>
+  <p><strong>ratings</strong></p>
+  <p>
+    <% @user.ratings.each do |rating| %>
+      <li> 
+        <%= rating.beer %>: <%= rating.score %>  <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+      </li>
+    <% end %>
+  </p> 
+<% else %>
+  <p> Has not yet given any ratings. </p>
+<% end %>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
