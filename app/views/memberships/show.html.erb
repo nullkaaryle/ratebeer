@@ -2,13 +2,16 @@
 
 <p>
   <strong>Beer club:</strong>
-  <%= @membership.beer_club_id %>
+  <%= @membership.beer_club.name %>
 </p>
 
 <p>
   <strong>User:</strong>
-  <%= @membership.user_id %>
+  <%= @membership.user.username %>
 </p>
 
-<%= link_to 'Edit', edit_membership_path(@membership) %> |
-<%= link_to 'Back', memberships_path %>
+<p>
+  <strong>Joined:</strong>
+  <%= @membership.created_at %>
+</p>
+
