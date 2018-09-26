@@ -21,3 +21,22 @@ br7 = b3.beers.create name:"Helles", style:"Lager"
 u1 = User.create username:"Pirkko", password:"Pirkko123", password_confirmation:"Pirkko123"
 u2 = User.create username:"Kerkko", password:"Kerkko123", password_confirmation:"Kerkko123"
 u3 = User.create username:"Herkko", password:"Herkko123", password_confirmation:"Herkko123"
+
+bc1 = BeerClub.create name:"Kumpulan Kaljamo", founded:2016, city:"Helsinki"
+bc2 = BeerClub.create name:"Puistolan panimopulut", founded:2002, city:"Helsinki"
+
+br1.ratings.create score:24, user_id:1
+br2.ratings.create score:5, user_id:1
+br3.ratings.create score:12, user_id:1
+br4.ratings.create score:35, user_id:1
+br5.ratings.create score:22, user_id:1
+br6.ratings.create score:17, user_id:2
+br7.ratings.create score:35, user_id:2
+br3.ratings.create score:12, user_id:2
+br4.ratings.create score:35, user_id:2
+br5.ratings.create score:22, user_id:2
+br6.ratings.create score:17, user_id:2
+
+u1.memberships.create beer_club_id:1
+u1.memberships.create beer_club_id:2
+u2.memberships.create beer_club_id:2
