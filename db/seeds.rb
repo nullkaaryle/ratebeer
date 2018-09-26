@@ -17,11 +17,3 @@ br4 = b2.beers.create name:"Huvila Pale Ale", style:"Pale Ale"
 br5 = b2.beers.create name:"X Porter", style:"Porter"
 br6 = b3.beers.create name:"Hefeweizen", style:"Weizen"
 br7 = b3.beers.create name:"Helles", style:"Lager"
-
-br1.ratings.create score: 24
-br2.ratings.create score: 5
-br3.ratings.create score: 12
-br4.ratings.create score: 35
-br5.ratings.create score: 22
-br6.ratings.create score: 17
-br7.ratings.create score: 35
