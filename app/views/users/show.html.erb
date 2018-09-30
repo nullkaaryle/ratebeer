@@ -20,6 +20,7 @@
   <% end %>
 </p>
 
+<div class='user_ratings'>
 <p>
  <strong>Ratings:</strong>
   <% if  @user.ratings.count > 0 %>
@@ -40,6 +41,8 @@
     </p>
   <% end %>
 </p>
+
+</div>
 
 <% if @user == current_user %> 
   <%= link_to 'Edit', edit_user_path(@user) %> |

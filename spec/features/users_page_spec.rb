@@ -51,6 +51,20 @@ describe "User" do
       expect(page).to have_content 'Has made 3 ratings, average rating 50'
     end
 
+    it "user can delete a rating" do
+      sign_in(username: "Pirkko", password: "Pirkko123")
+      FactoryBot.create(:rating, score: 50, user:pirkko)
+      visit user_path(pirkko)
+      save_and_open_page
+      
+      within(".user_ratings") do
+        expect{
+          click_link('delete')
+        }.to change{Rating.count}.by(-1)
+      end
+        expect(page).to have_content 'Has not given any ratings.'
+    end
+
   end
 
 end
