@@ -36,4 +36,20 @@ class User < ApplicationRecord
 
     Brewery.find_by_sql([sql, id]).first
   end
+
+  def favorite_style
+    return nil if ratings.empty?
+
+    sql = %{
+      select beers.style
+      from ratings
+      inner join beers on beers.id = ratings.beer_id
+      where ratings.user_id = ?
+      group by beers.style
+      order by avg(ratings.score) desc
+      limit 1;
+    }
+
+    Beer.find_by_sql([sql, id]).first.style
+  end
 end

@@ -92,7 +92,20 @@ RSpec.describe User, type: :model do
         FactoryBot.create(:rating, beer: test_beer, score: 40, user: user )
         expect(user.favorite_brewery).to eq(test_brewery)
       end  
-    end  
+    end
+    
+    describe "favorite style" do
+
+      it "has method for determining the favorite style" do
+        expect(user).to respond_to(:favorite_style)
+      end
+
+       it "without ratings does not have a favorite style" do
+        expect(user.ratings.count).to eq(0)
+        expect(user.favorite_style).to eq(nil)
+      end
+    
+    end
 
   end
 

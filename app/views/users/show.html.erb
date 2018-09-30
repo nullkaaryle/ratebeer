@@ -50,6 +50,12 @@
   <% end %>
 </p>
 
+<p>
+  <% if @user.favorite_style %>
+    <strong>Favorite style is:</strong> <%= @user.favorite_style %>
+  <% end %>
+</p>
+
 <% if @user == current_user %> 
   <%= link_to 'Edit', edit_user_path(@user) %> |
   <%= link_to 'Delete', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
