@@ -11,4 +11,8 @@ class Beer < ApplicationRecord
   def to_s
     "#{name} (#{brewery.name})"
   end
+
+  def to_good_beer
+    "#{name} (#{brewery.name}), YUM YUM!"
+  end
 end
