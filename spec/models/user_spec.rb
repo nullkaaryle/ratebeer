@@ -13,7 +13,7 @@ RSpec.describe User, type: :model do
     let(:user3){ User.create username:"Pekka", password:"Sec", password_confirmation:"Sec" }
 
     it "without a password" do
-      expect(user2).not_to be_valid
+      expect(user1).not_to be_valid
       expect(User.count).to eq(0)
     end
     
