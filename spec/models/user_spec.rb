@@ -72,6 +72,28 @@ RSpec.describe User, type: :model do
       end     
     end
 
+    describe "favorite brewery" do
+      let(:user){ FactoryBot.create(:user) }
+      let(:test_brewery) { Brewery.new name: "test", year: 2000 }
+      let(:test_beer) { Beer.create name: "testbeer", style: "teststyle", brewery: test_brewery }
+    
+      it "has method for determining the favorite brewery" do
+        expect(user).to respond_to(:favorite_brewery)
+      end
+
+      it "without ratings does not have a favorite brewery" do
+        expect(user.ratings.count).to eq(0)
+        expect(user.favorite_brewery).to eq(nil)
+      end
+
+       it "is the one with highest total ratings if several rated" do
+        create_beers_with_many_ratings({user: user}, 10, 20, 30)
+        
+        FactoryBot.create(:rating, beer: test_beer, score: 40, user: user )
+        expect(user.favorite_brewery).to eq(test_brewery)
+      end  
+    end  
+
   end
 
   def create_beer_with_rating(object, score)

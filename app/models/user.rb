@@ -19,4 +19,21 @@ class User < ApplicationRecord
 
     ratings.order(score: :desc).limit(1).first.beer
   end
+
+  def favorite_brewery
+    return nil if ratings.empty?
+
+    sql = %{
+      select br.*
+      from ratings r
+      inner join beers be on be.id = r.beer_id
+      inner join breweries br on br.id = be.brewery_id
+      where r.user_id = ?
+      group by br.id, br.name
+      order by avg(r.score) desc
+      limit 1;
+    }
+
+    Brewery.find_by_sql([sql, id]).first
+  end
 end
