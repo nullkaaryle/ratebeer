@@ -17,7 +17,7 @@ describe "User" do
 
     it "is redirected back to signin form if wrong credentials given" do
       sign_in(username: "Pekka", password: "wrong")
-      
+
       expect(current_path).to eq(signin_path)
       expect(page).to have_content 'Username and/or password mismatch'
     end
@@ -34,4 +34,23 @@ describe "User" do
     end
     
   end
+
+  describe "in user's profile page" do
+    let!(:herkko){ User.create username:"Herkko", password:"Herkko123", password_confirmation:"Herkko123" }
+    let!(:pirkko){ User.create username:"Pirkko", password:"Pirkko123", password_confirmation:"Pirkko123" }
+    
+    it "only user's own ratings are listed" do
+      FactoryBot.create(:rating, score: 1, user:herkko)
+      FactoryBot.create(:rating, score: 2, user:herkko)
+      FactoryBot.create(:rating, score: 3, user:herkko)
+      FactoryBot.create(:rating, score: 50, user:pirkko)
+      FactoryBot.create(:rating, score: 50, user:pirkko)
+      FactoryBot.create(:rating, score: 50, user:pirkko)
+      visit user_path(pirkko)
+
+      expect(page).to have_content 'Has made 3 ratings, average rating 50'
+    end
+
+  end
+
 end

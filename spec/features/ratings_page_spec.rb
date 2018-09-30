@@ -37,8 +37,9 @@ describe "Rating" do
     FactoryBot.create(:rating, score: 11, user:user)
     FactoryBot.create(:rating, score: 12, user:user)
     FactoryBot.create(:rating, score: 13, user:user)
-    expect(Rating.count).to eq(3)
     visit ratings_path
+    
+    expect(Rating.count).to eq(3)
     expect(page).to have_content "Our users have given 3 ratings"
   end
 

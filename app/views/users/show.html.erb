@@ -23,7 +23,7 @@
 <p>
  <strong>Ratings:</strong>
   <% if  @user.ratings.count > 0 %>
-    <p>Has made <%= pluralize(@user.ratings.count, 'rating') %> , average rating <%= @user.average_rating.round(1) %></p>
+    <p>Has made <%= pluralize(@user.ratings.count, 'rating') %>, average rating <%= @user.average_rating.round(1) %></p>
     <ul>
       <% @user.ratings.each do |rating| %>
         <li> 
