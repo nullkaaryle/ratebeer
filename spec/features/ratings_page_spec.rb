@@ -25,4 +25,21 @@ describe "Rating" do
     expect(beer1.ratings.count).to eq(1)
     expect(beer1.average_rating).to eq(15.0)
   end
+
+  it "there should not exist any before been created" do
+    visit ratings_path
+    
+    expect(Rating.count).to eq(0)
+    expect(page).to have_content "No ratings given yet"
+  end 
+
+  it "total number of ratings is shown on Ratings page" do
+    FactoryBot.create(:rating, score: 11, user:user)
+    FactoryBot.create(:rating, score: 12, user:user)
+    FactoryBot.create(:rating, score: 13, user:user)
+    expect(Rating.count).to eq(3)
+    visit ratings_path
+    expect(page).to have_content "Our users have given 3 ratings"
+  end
+
 end
