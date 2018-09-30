@@ -5,6 +5,8 @@ include Helpers
 describe "Beer" do
   before :each do
     FactoryBot.create(:brewery, name: 'TestBrewery')
+    FactoryBot.create :user
+    sign_in(username: "Pekka", password: "Foobar1")
   end
 
   it "when given a valid name, is added to the system" do

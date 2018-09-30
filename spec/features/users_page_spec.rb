@@ -55,7 +55,6 @@ describe "User" do
       sign_in(username: "Pirkko", password: "Pirkko123")
       FactoryBot.create(:rating, score: 50, user:pirkko)
       visit user_path(pirkko)
-      save_and_open_page
       
       within(".user_ratings") do
         expect{
