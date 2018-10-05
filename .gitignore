@@ -32,3 +32,6 @@
 
 # Ignore osx DS_store files
 .DS_Store
+
+# Ignore coverage reports
+.coverage/*
