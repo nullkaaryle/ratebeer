@@ -4,6 +4,12 @@ class BeermappingApi
     Rails.cache.fetch(city, expires_in: 1.hour) { get_places_in(city) }
   end
 
+  def self.place_with_id(place_id)
+    Rails.cache.fetch("place/#{place_id}") do
+      get_place_with_id(place_id)
+    end
+  end
+
   def self.get_places_in(city)
     url = "http://beermapping.com/webservice/loccity/#{key}/"
 
@@ -16,6 +22,12 @@ class BeermappingApi
     places.map do |place|
       Place.new(place)
     end
+  end
+
+  def self.get_place_with_id(place_id)
+    url = "http://beermapping.com/webservice/locquery/#{key}/"
+    response = HTTParty.get "#{url}#{ERB::Util.url_encode(place_id)}"
+    Place.new(response.parsed_response["bmp_locations"]["location"])
   end
 
   def self.key
