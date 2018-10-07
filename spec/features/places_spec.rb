@@ -33,7 +33,6 @@ describe "Places" do
     visit places_path
     fill_in('city', with: city)
     click_button "Search"
-    save_and_open_page
     expect(page).to have_content "No locations in #{city}"
   end
 end

@@ -54,7 +54,7 @@ describe "BeermappingApi" do
     stub_request(:get, /.*kumpula/).to_return(body: canned_answer, :headers => { 'Content-Type' => "text/xml" })
  
     places = BeermappingApi.places_in("kumpula")
-     expect(places.size).to eq(0)
+    expect(places.size).to eq(0)
 
    end
 
