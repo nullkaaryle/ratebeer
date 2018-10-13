@@ -37,19 +37,18 @@ class User < ApplicationRecord
     Brewery.find_by_sql([sql, id]).first
   end
 
+  def average_of(ratings)
+    ratings.sum(&:score).to_f / ratings.count
+  end
+
   def favorite_style
     return nil if ratings.empty?
 
-    sql = %{
-      select beers.style
-      from ratings
-      inner join beers on beers.id = ratings.beer_id
-      where ratings.user_id = ?
-      group by beers.style
-      order by avg(ratings.score) desc
-      limit 1;
-    }
+    style_ratings = ratings.group_by{ |r| r.beer.style }
+    averages = style_ratings.map do |style, ratings|
+      { style: style, score: average_of(ratings) }
+    end
 
-    Beer.find_by_sql([sql, id]).first.style
+    averages.max_by{ |r| r[:score] }[:style]
   end
 end
