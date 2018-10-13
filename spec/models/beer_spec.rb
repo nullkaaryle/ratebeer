@@ -1,38 +1,26 @@
 require 'rails_helper'
 
-# Oluen luonti onnistuu ja olut tallettuu kantaan 
-# - jos oluella on nimi, tyyli ja panimo asetettuna
-# oluen luonti ei onnistu (eli creatella ei synny validia oliota), 
-# -jos sille ei anneta nimeä 
-# -jos sille ei määritellä tyyliä
-# Jos jälkimmäinen testi ei mene läpi, laajenna koodiasi siten, 
-# että se läpäisee testin.
-
 RSpec.describe Beer, type: :model do
-  describe "is saved" do
-    let(:test_brewery) { Brewery.new name: "test", year: 2000 }
-    let(:test_beer) { Beer.create name: "testbeer", style: "teststyle", brewery: test_brewery }
+  let(:brewery) { Brewery.create name: 'crapbrau', year: 1900 } 
+  let(:lager) { Style.create name: 'lager' } 
 
-    it "with a proper name, style and brewery" do
-      expect(test_beer).to be_valid
-      expect(Beer.count).to eq(1)
-    end
+  it "is created with valid input" do 
+    beer = Beer.create name: 'crap', style: lager, brewery: brewery
+    expect(beer).to be_valid
+    expect(Beer.count).to eq(1)
   end
 
-  describe "is not saved" do
-    let(:test_brewery) { Brewery.new name: "test", year: 2000 }
-    let(:test_beer_no_name) { Beer.create style: "teststyle", brewery: test_brewery }
-    let(:test_beer_no_style) { Beer.create name: "testbeer", brewery: test_brewery }
+  it "is not saved without name" do
+    beer = Beer.create style: lager, brewery: brewery
 
-    it "without a name" do
-      expect(test_beer_no_name).not_to be_valid
-      expect(Beer.count).to eq(0)
-    end
-
-    it "without a style" do
-      expect(test_beer_no_style).not_to be_valid
-      expect(Beer.count).to eq(0)
-    end
-
+    expect(beer).not_to be_valid
+    expect(Beer.count).to eq(0)
   end
+
+  it "is not saved without style" do
+    beer = Beer.create name: 'crap', brewery: brewery
+
+    expect(beer).not_to be_valid
+    expect(Beer.count).to eq(0)
+  end  
 end

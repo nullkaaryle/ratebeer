@@ -3,9 +3,9 @@ require 'rails_helper'
 include Helpers
 
 describe "Rating" do
-  let!(:brewery) { FactoryBot.create :brewery, name:"Koff" }
-  let!(:beer1) { FactoryBot.create :beer, name:"iso 3", brewery:brewery }
-  let!(:beer2) { FactoryBot.create :beer, name:"Karhu", brewery:brewery }
+  let!(:brewery) { FactoryBot.create :brewery, name: "Koff" }
+  let!(:beer1) { FactoryBot.create :beer, name: "iso 3", brewery: brewery }
+  let!(:beer2) { FactoryBot.create :beer, name: "Karhu", brewery: brewery }
   let!(:user) { FactoryBot.create :user }
 
   before :each do
@@ -25,22 +25,52 @@ describe "Rating" do
     expect(beer1.ratings.count).to eq(1)
     expect(beer1.average_rating).to eq(15.0)
   end
+end
 
-  it "there should not exist any before been created" do
-    visit ratings_path
-    
-    expect(Rating.count).to eq(0)
-    expect(page).to have_content "No ratings given yet"
-  end 
+describe "when many ratings are given" do 
+  let!(:user) { FactoryBot.create :user }
 
-  it "total number of ratings is shown on Ratings page" do
-    FactoryBot.create(:rating, score: 11, user:user)
-    FactoryBot.create(:rating, score: 12, user:user)
-    FactoryBot.create(:rating, score: 13, user:user)
-    visit ratings_path
-    
-    expect(Rating.count).to eq(3)
-    expect(page).to have_content "Our users have given 3 ratings"
+  before :each do
+    schlenkerla = FactoryBot.create :brewery, name: 'Schlenkerla' 
+    rauchbier = FactoryBot.create :style, name: 'Rauchbier'
+    create_beer_with_rating({ user: user, style: rauchbier, brewery: schlenkerla }, 20)
+    create_beer_with_rating({ user: user }, 10)
+    user2 = FactoryBot.create :user, username: 'Arto'
+    create_beers_with_many_ratings({ user: user2 }, 7, 9, 15)
   end
 
+  it "all and the count are shown at ratings_page" do 
+    visit ratings_path
+    expect(page).to have_content 'Our users have given 5 ratings:'
+    expect(page).to have_content 'anonymous: 10 Pekka'
+    expect(page).to have_content 'anonymous: 20 Pekka'
+    expect(page).to have_content 'anonymous: 7 Arto'
+    expect(page).to have_content 'anonymous: 9 Arto'
+    expect(page).to have_content 'anonymous: 15 Arto'
+  end
+
+  it "only users own ratings are shown at user page" do 
+    visit user_path(user)
+    expect(page).to have_content 'anonymous (Schlenkerla): 20'
+    expect(page).to have_content 'anonymous (anonymous): 10'
+    expect(page).not_to have_content 'anonymous (anonymous): 7'
+  end
+
+  it "when user removes a rating, it is deleted from database" do 
+    sign_in( username: 'Pekka', password: 'Foobar1')
+    visit user_path(user)
+
+    # etsitään sivun kaikista linkeistä ensimmäinen jonka teksti on delete
+    delete_link = all('a').select{ |l| l.text=='delete' }.first
+
+    expect{
+      delete_link.click
+    }.to change{Rating.count}.by(-1)
+  end  
+
+  it "favorite style and brewery are shown at users page" do 
+    visit user_path(user)
+    expect(page).to have_content 'Favorite style is: Rauchbier'
+    expect(page).to have_content 'Favorite brewery is: Schlenkerla'
+  end
 end

@@ -2,37 +2,30 @@ require 'rails_helper'
 
 include Helpers
 
-describe "Beer" do
-  before :each do
-    FactoryBot.create(:brewery, name: 'TestBrewery')
-    FactoryBot.create :user
+describe "Beer page" do
+  before :each do 
+    FactoryBot.create(:brewery)
+    FactoryBot.create(:user)
+    FactoryBot.create(:style)
     sign_in(username: "Pekka", password: "Foobar1")
   end
 
-  it "when given a valid name, is added to the system" do
-    visit new_beer_path
-      fill_in('beer_name', with:'TestBeer')
+  it "a beer can be saved with valid input" do
+      visit new_beer_path
+      fill_in('beer[name]', with:'Keppana')
 
       expect{
         click_button('Create Beer')
-        }.to change{Beer.count}.by(1)
+      }.to change{Beer.count}.by(1)
   end
 
-
-  describe "when not a given a name" do
-    before :each do
+  it "if name invalid, beer is not saved and a errormessage is given" do
       visit new_beer_path
-      fill_in('beer_name', with:'')
-      click_button('Create Beer')
-    end
 
-    it "is not added to the system" do
-      expect(Beer.count).to eq(0)
-    end
-    
-    it "an error notification is shown to user" do
-      expect(page).to have_content "error prohibited this beer from being saved"
+      expect{
+        click_button('Create Beer')
+      }.to change{Beer.count}.by(0)
+
       expect(page).to have_content "Name can't be blank"
-    end
-  end
+  end  
 end

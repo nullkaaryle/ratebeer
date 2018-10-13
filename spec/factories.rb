@@ -10,16 +10,18 @@ FactoryBot.define do
     year { 1900 } 
   end
 
+  factory :style do
+    name { "crap" }
+    description { "generic bulk..." } 
+  end
+
   factory :beer do
     name { "anonymous" }
-    style { "Lager" } 
-    brewery # olueeseen liittyvä panimo luodaan brewery-tehtaalla
+    style
+    brewery
   end
 
   factory :rating do
-    score { 10 }
-    beer # reittaukseen liittyvä olut luodaan beer-tehtaalla
-    user # reittaukseen liittyvä user luodaan user-tehtaalla
+    beer
   end
-  
 end
