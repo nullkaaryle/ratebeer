@@ -7,11 +7,21 @@
     <%= render 'list_ratings', ratings: @ratings.recent %>
   <% end %>
 <br>
-  <h2> Top 3 breweries: </h2>
+  <h2>Best breweries: </h2>
   <%= render 'list_breweries', breweries: @top_breweries %>
+  
 <br>
-  <h2>Top 3 beers:</h2>
+  <h2>Best beers:</h2>
   <%= render 'list_beers', beers: @top_beers %>
+
+<br>
+  <h2>Best styles:</h2>
+  <%= render 'list_styles', styles: @top_styles %>
+
+<br>
+  <h2>Most active users:</h2>
+  <%= render 'list_users', users: @top_users %>
+
 <br>
   <h2> Our users have given total of <%= pluralize(@ratings.count, 'rating') %>: </h2>
   <%= render 'list_ratings', ratings: @ratings %>

@@ -2,17 +2,17 @@
   <thead>
   <tr>
     <th>Brewery name</th>
-    <th>Year founded</th>
+    <th>Average</th>
+    <th colspan="2"></th>
   </tr>
   </thead>
 
   <tbody>
-  <% breweries.each do |brewery| %>
+    <% breweries.each do |brewery| %>
       <tr>
         <td><%= link_to brewery.name, brewery %></td>
-        <td><%= brewery.year %></td>
-        <td></td>
+        <td><%= brewery.average_rating.round(1) %></td>
       </tr>
-  <% end %>
+    <% end %>
   </tbody>
 </table>
