@@ -24,9 +24,4 @@
 <% end %>
 
 <br>
-<br>
-<p>
-  <%= link_to 'Edit', edit_brewery_path(@brewery) if current_user %>
-  <br>
-  <%= link_to 'Delete', @brewery, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' if current_user %></td>
-</p>
+<%= edit_and_destroy_buttons(@brewery) %>

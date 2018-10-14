@@ -1,4 +1,4 @@
-
+<h1>Beer styles</h1>
 
 <h2>
   <%= @style.name %>
@@ -16,6 +16,4 @@
   <% end %>
 </ul>
 
-<%= link_to 'Edit', edit_style_path(@style) %> |
-<%= link_to 'Destroy', @style, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger'%> |
-<%= link_to 'Back', styles_path %>
+<%= edit_and_destroy_buttons(@style) %>
