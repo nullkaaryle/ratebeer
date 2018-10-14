@@ -1,7 +1,8 @@
-
-
 <h2>
-    <%= @brewery.name %>
+  <%= @brewery.name %>
+  <% if not @brewery.active  %>
+    <span class="badge badge-info">retired</span>
+  <% end %>
 </h2>
 
 <p>

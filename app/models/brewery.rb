@@ -8,4 +8,12 @@ class Brewery < ApplicationRecord
                                    less_than_or_equal_to: ->(_) { Time.now.year },
                                    only_integer: true }
   validates :name, presence: true
+
+  scope :active, -> { where active: true }
+  scope :retired, -> { where active: [nil, false] }
+
+  def self.top(number_of_top_rated)
+    sorted_by_rating_in_desc_order = Brewery.all.sort_by{ |b| -(b.average_rating || 0) }
+    sorted_by_rating_in_desc_order.take(number_of_top_rated)
+  end
 end
