@@ -6,6 +6,10 @@ describe "Places" do
       [ Place.new( name:"Oljenkorsi", id: 1 ) ]
     )
 
+    #allow(ApixuApi).to receive(:weather_in).with("kumpula").and_return(
+    #  [ *insert here* ]
+    #)
+
     visit places_path
     fill_in('city', with: 'kumpula')
     click_button "Search"
