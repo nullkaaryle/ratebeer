@@ -57,7 +57,7 @@ class User < ApplicationRecord
       select u.*
       from ratings r
       inner join users u on u.id = r.user_id
-      group by r.user_id
+      group by r.user_id, u.id
       order by count(r.user_id) desc
       limit ?
     }
