@@ -1,14 +1,20 @@
 <h1>Breweries</h1>
+<br>
 
-<h2>Active</h2>
+<h3>Active</h3>
 
-<p> Number of active breweries: <%= @active_breweries.count %> </p>
+<p> Number of active breweries: 
+  <span class="badge badge-primary badge-pill"> <%= @active_breweries.count %>  </span>
+</p>
 
 <%= render 'list', breweries: @active_breweries %>
+<br>
 
-<h2>Retired</h2>
+<h3>Retired</h3>
 
-<p> Number of retired breweries: <%= @retired_breweries.count %> </p>
+<p> Number of retired breweries:
+  <span class="badge badge-secondary badge-pill"> <%= @retired_breweries.count %> </span>
+</p>
 
 <%= render 'list', breweries: @retired_breweries %>
 

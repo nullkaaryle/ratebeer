@@ -12,23 +12,33 @@
   <% end %>
 
   <% if @user.new_record? %>
-    <div class="field">
-      <%= form.label :username %>
-      <%= form.text_field :username %>
+   
+     <div class="form-group">
+     <%= form.label :username, "Username:", class: "col-md-4 control-label" %>
+        <div class="col-md-8">
+          <%= form.text_field :username, class: "form-control" %>
+        </div>
     </div>
+   
   <% end %>
 
-  <div class="field">
-    <%= form.label :password %><br />
-    <%= form.password_field :password %>
+   
+  <div class="form-group">
+    <%= form.label :password, "Password:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= form.password_field :password, class: "form-control" %>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :password_confirmation %><br />
-    <%= form.password_field :password_confirmation  %>
+  <div class="form-group">
+    <%= form.label :password_confirmation, "Password confirmation:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= form.password_field :password_confirmation, class: "form-control" %>
+      </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div>
+    <%= form.submit class: "btn btn-default btn-primary" %>  
   </div>
+
 <% end %>

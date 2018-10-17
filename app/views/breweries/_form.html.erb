@@ -11,22 +11,28 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name, "Name:", class: "col-md-4 control-label" %>
+      <div class="col-md-8">
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
   </div>
 
-  <div class="field">
-    <%= form.label :year %>
-    <%= form.number_field :year %>
+  <div class="form-group">
+      <%= form.label :year, "Year:", class: "col-md-4 control-label" %>
+        <div class="col-md-8">
+           <%= form.number_field :year, class: "form-control" %>
+        </div>
   </div>
 
-  <div class="field">
-    <%= form.label :active %>
-    <%= form.check_box :active %>
+  <div class="form-group">
+    <div class="checkbox col-md-8">
+      <label> <%= form.check_box :active, :as => :boolean, :label => false, :inline_label => true %> Active</label>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div>
+    <%= form.submit class: "btn btn-default btn-primary" %>  
   </div>
+
 <% end %>

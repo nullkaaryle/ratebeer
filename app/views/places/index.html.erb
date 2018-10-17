@@ -1,10 +1,13 @@
-
-
 <h1>Beer places search</h1>
 
 <%= form_tag places_path do %>
-  city <%= text_field_tag :city, params[:city] %>
-  <%= submit_tag "Search" %>
+
+  <div class="form-group">
+    <label> City: </label>
+      <%= text_field_tag :city, params[:city] %>
+      <%= submit_tag "Search", class: "btn btn-default btn-primary" %>  
+  </div>
+
 <% end %>
 
 <% if @places %>
@@ -28,7 +31,7 @@
         <% Place.rendered_fields.each do |field| %>
           <td>
             <% if field==:name %>
-            <%= link_to place.name, place_path(place.id) %>
+              <%= link_to place.name, place_path(place.id) %>
             <% else %>
               <%= place.send(field) %>
             <% end %>    
