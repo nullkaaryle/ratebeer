@@ -13,7 +13,7 @@
 <% if @places %>
   <h4>Current beer weather in <%= @places.first.city %></h4>
 
-  <p><%= @weather['temp_c'] %> Celsius</p>
+  <p> <%= (@weather['temp_c']) %> Celsius </p>
 
   <img src=<%= @weather['condition']['icon'] %> >
 

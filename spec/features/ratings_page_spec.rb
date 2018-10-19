@@ -41,12 +41,12 @@ describe "when many ratings are given" do
 
   it "all and the count are shown at ratings_page" do 
     visit ratings_path
-    expect(page).to have_content 'Our users have given 5 ratings:'
-    expect(page).to have_content 'anonymous: 10 Pekka'
-    expect(page).to have_content 'anonymous: 20 Pekka'
-    expect(page).to have_content 'anonymous: 7 Arto'
-    expect(page).to have_content 'anonymous: 9 Arto'
-    expect(page).to have_content 'anonymous: 15 Arto'
+    expect(page).to have_content 'Our users have given total of 5 ratings'
+    expect(page).to have_content 'anonymous 10 Pekka'
+    expect(page).to have_content 'anonymous 20 Pekka'
+    expect(page).to have_content 'anonymous 7 Arto'
+    expect(page).to have_content 'anonymous 9 Arto'
+    expect(page).to have_content 'anonymous 15 Arto'
   end
 
   it "only users own ratings are shown at user page" do 

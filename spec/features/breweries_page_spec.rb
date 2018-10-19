@@ -1,44 +1,38 @@
 require 'rails_helper'
 
-describe "Places" do
-  it "if one is returned by the API, it is shown at the page" do
-    allow(BeermappingApi).to receive(:places_in).with("kumpula").and_return(
-      [ Place.new( name:"Oljenkorsi", id: 1 ) ]
-    )
-
-    visit places_path
-    fill_in('city', with: 'kumpula')
-    click_button "Search"
-
-    expect(page).to have_content "Oljenkorsi"
+describe "Breweries page" do
+  it "should not have any before been created" do
+    visit breweries_path
+    expect(page).to have_content 'Breweries'
+    expect(page).to have_content 'Number of active breweries: 0'
+    expect(page).to have_content 'Number of retired breweries: 0'
   end
 
-  it "if many are returned by the API, all are shown at the page" do
-    allow(BeermappingApi).to receive(:places_in).with("puotila").and_return(
-      [ 
-        Place.new( name: "Pikkulintu", id: 1 ),
-        Place.new( name: "Puotinkrouvi", id: 2 ) 
-      ]
-    )
+  describe "when breweries exists" do
+    before :each do
+      @breweries = ["Koff", "Karjala", "Schlenkerla"]
+      year = 1896
+      @breweries.each do |brewery_name|
+        FactoryBot.create(:brewery, name: brewery_name, year: year += 1)
+      end
 
-    visit places_path
-    fill_in('city', with: 'puotila')
-    click_button "Search"
+      visit breweries_path
+    end
 
-    expect(page).to_not have_content "Oljenkorsi"
-    expect(page).to have_content "Pikkulintu"
-    expect(page).to have_content "Puotinkrouvi"
-  end  
+    it "lists the breweries and their total number" do
+      expect(page).to have_content 'Number of active breweries: 0'
+      expect(page).to have_content "Number of retired breweries: #{@breweries.count}"
+      @breweries.each do |brewery_name|
+        expect(page).to have_content brewery_name
+      end
+    end
 
-  it "if none is returned by the API, use is notified" do
-    allow(BeermappingApi).to receive(:places_in).with("tapanila").and_return(
-      []
-    )
+    it "allows user to navigate to page of a Brewery" do
+      click_link "Koff"
 
-    visit places_path
-    fill_in('city', with: 'tapanila')
-    click_button "Search"
+      expect(page).to have_content "Koff"
+      expect(page).to have_content "Established at 1897"
+    end
 
-    expect(page).to have_content "No locations in tapanila"
-  end  
+  end
 end
