@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :current_user_admin, only: [:toggle_frozen]
 
   # GET /users
   # GET /users.json
@@ -62,6 +63,15 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def toggle_closed
+    user = User.find(params[:id])
+    user.update_attribute :closed, !user.closed
+
+    new_status = user.frozen? ? "closed" : "opened"
+
+    redirect_to user, notice: "account of #{user.username} #{new_status}"
   end
 
   private

@@ -14,42 +14,33 @@ class User < ApplicationRecord
                         presence: true,
                         format: { with: /([A-Z]+.*\d+)|(\d+.*[A-Z]+)/ }
 
+  def average_of(ratings)
+    ratings.sum(&:score).to_f / ratings.count
+  end
+
   def favorite_beer
     return nil if ratings.empty?
 
     ratings.order(score: :desc).limit(1).first.beer
   end
 
-  def favorite_brewery
-    return nil if ratings.empty?
-
-    sql = %{
-      select br.*
-      from ratings r
-      inner join beers be on be.id = r.beer_id
-      inner join breweries br on br.id = be.brewery_id
-      where r.user_id = ?
-      group by br.id, br.name
-      order by avg(r.score) desc
-      limit 1;
-    }
-
-    Brewery.find_by_sql([sql, id]).first
-  end
-
-  def average_of(ratings)
-    ratings.sum(&:score).to_f / ratings.count
-  end
-
   def favorite_style
+    favorite(:style)
+  end
+
+  def favorite_brewery
+    favorite(:brewery)
+  end
+
+  def favorite(groupped_by)
     return nil if ratings.empty?
 
-    style_ratings = ratings.group_by{ |r| r.beer.style }
-    averages = style_ratings.map do |style, ratings|
-      { style: style, score: average_of(ratings) }
+    grouped_ratings = ratings.group_by{ |r| r.beer.send(groupped_by) }
+    averages = grouped_ratings.map do |group, ratings|
+      { group: group, score: average_of(ratings) }
     end
 
-    averages.max_by{ |r| r[:score] }[:style]
+    averages.max_by{ |r| r[:score] }[:group]
   end
 
   def self.top(number_of_top_rated)

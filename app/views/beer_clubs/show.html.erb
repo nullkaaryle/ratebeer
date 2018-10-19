@@ -35,10 +35,5 @@
       <% end %>
     <% end %>
 
-  <p>
-      <%= link_to 'Edit', edit_beer_club_path(@beer_club) %> 
-    <br>
-      <%= link_to('Delete', @beer_club, class:'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }) %>
-  </p>
-
+  <%= edit_and_destroy_buttons(@beer_club) %>
 <% end %>
