@@ -43,4 +43,29 @@ describe "Beerlist page" do
     row3 = find('table').find('tr:nth-child(4)')
     expect(row3).to have_content "Nikolai"
   end
+
+   it "table can be ordered by style", js:true do
+      visit beerlist_path
+      row0 = find('table').find('tr:nth-child(1)')
+      find('a', text: 'Style').click
+      row1 = find('table').find('tr:nth-child(2)')
+      expect(row1).to have_content "Lager"
+      row2 = find('table').find('tr:nth-child(3)')
+      expect(row2).to have_content "Rauchbier"
+      row3 = find('table').find('tr:nth-child(4)')
+      save_and_open_page
+      expect(row3).to have_content "Weizen"
+   end
+
+   it "table can be ordered by brewery", js:true do
+      visit beerlist_path
+      row0 = find('table').find('tr:nth-child(1)')
+      find('a', text: 'Brewery').click
+      row1 = find('table').find('tr:nth-child(2)')
+      expect(row1).to have_content "Ayinger"
+      row2 = find('table').find('tr:nth-child(3)')
+      expect(row2).to have_content "Koff"
+      row3 = find('table').find('tr:nth-child(4)')
+      expect(row3).to have_content "Schlenkerla"
+   end
 end
