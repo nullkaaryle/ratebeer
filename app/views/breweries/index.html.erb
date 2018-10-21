@@ -1,21 +1,27 @@
 <h1>Breweries</h1>
+
 <br>
 
-<h3>Active</h3>
+<% cache 'brewerylist', skip_digest: true do %>
 
-<p> Number of active breweries: 
-  <span class="badge badge-primary badge-pill"> <%= @active_breweries.count %>  </span>
-</p>
+  <h3>Active</h3>
 
-<%= render 'list', breweries: @active_breweries %>
-<br>
+  <p> Number of active breweries: 
+    <span class="badge badge-primary badge-pill"> <%= @active_breweries.count %>  </span>
+  </p>
 
-<h3>Retired</h3>
+  <%= render 'list', breweries: @active_breweries %>
 
-<p> Number of retired breweries:
-  <span class="badge badge-secondary badge-pill"> <%= @retired_breweries.count %> </span>
-</p>
+  <br>
 
-<%= render 'list', breweries: @retired_breweries %>
+  <h3>Retired</h3>
+
+  <p> Number of retired breweries:
+    <span class="badge badge-secondary badge-pill"> <%= @retired_breweries.count %> </span>
+  </p>
+
+  <%= render 'list', breweries: @retired_breweries %>
+
+ <% end %>
 
 <%= link_to 'New Brewery', new_brewery_path, class:"btn btn-primary"  %>

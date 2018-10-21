@@ -1,42 +1,35 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+users = 400             # jos koneesi on hidas, riittää esim 200
+breweries = 200         # jos koneesi on hidas, riittää esim 100
+beers_in_brewery = 50
+ratings_per_user = 30
 
-b1 = Brewery.create name:"Koff", year:1897
-b2 = Brewery.create name:"Malmgard", year:2001
-b3 = Brewery.create name:"Weihenstephaner", year:1040
+(1..users).each do |i|
+  User.create username: "user_#{i}", password:"Passwd1", password_confirmation: "Passwd1"
+end
 
-br1 = b1.beers.create name:"Iso 3", style:"Lager"
-br2 = b1.beers.create name:"Karhu", style:"Lager"
-br3 = b1.beers.create name:"Tuplahumala", style:"Lager"
-br4 = b2.beers.create name:"Huvila Pale Ale", style:"Pale Ale"
-br5 = b2.beers.create name:"X Porter", style:"Porter"
-br6 = b3.beers.create name:"Hefeweizen", style:"Weizen"
-br7 = b3.beers.create name:"Helles", style:"Lager"
+(1..breweries).each do |i|
+  Brewery.create name:"Brewery_#{i}", year: 1900, active: true
+end
 
-u1 = User.create username:"Pirkko", password:"Pirkko123", password_confirmation:"Pirkko123"
-u2 = User.create username:"Kerkko", password:"Kerkko123", password_confirmation:"Kerkko123"
-u3 = User.create username:"Herkko", password:"Herkko123", password_confirmation:"Herkko123"
+bulk = Style.create name: "Bulk", description: "cheap, not much taste"
 
-bc1 = BeerClub.create name:"Kumpulan Kaljamo", founded:2016, city:"Helsinki"
-bc2 = BeerClub.create name:"Puistolan panimopulut", founded:2002, city:"Helsinki"
+Brewery.all.each do |b|
+  n = rand(beers_in_brewery)
+  (1..n).each do |i|
+    beer = Beer.create name:"Beer #{b.id} -- #{i}", style:bulk
+    b.beers << beer
+  end
+end
 
-br1.ratings.create score:24, user_id:1
-br2.ratings.create score:5, user_id:1
-br3.ratings.create score:12, user_id:1
-br4.ratings.create score:35, user_id:1
-br5.ratings.create score:22, user_id:1
-br6.ratings.create score:17, user_id:2
-br7.ratings.create score:35, user_id:2
-br3.ratings.create score:12, user_id:2
-br4.ratings.create score:35, user_id:2
-br5.ratings.create score:22, user_id:2
-br6.ratings.create score:17, user_id:2
-
-u1.memberships.create beer_club_id:1
-u1.memberships.create beer_club_id:2
-u2.memberships.create beer_club_id:2
+User.all.each do |u|
+  n = rand(ratings_per_user)
+  beers = Beer.all.shuffle
+  (1..n).each do |i|
+    r = Rating.new score:(1+rand(50))
+    beers[i].ratings << r
+    u.ratings << r
+  end
+end
