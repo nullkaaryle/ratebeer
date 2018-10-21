@@ -43,16 +43,8 @@ class User < ApplicationRecord
     averages.max_by{ |r| r[:score] }[:group]
   end
 
-  def self.top(number_of_top_rated)
-    sql = %{
-      select u.*
-      from ratings r
-      inner join users u on u.id = r.user_id
-      group by r.user_id, u.id
-      order by count(r.user_id) desc
-      limit ?
-    }
-
-    User.find_by_sql([sql, number_of_top_rated])
+  def self.top(how_many)
+    sorted_by_rating_in_desc_order = all.sort_by{ |u| -u.ratings.count }
+    sorted_by_rating_in_desc_order[0, how_many]
   end
 end

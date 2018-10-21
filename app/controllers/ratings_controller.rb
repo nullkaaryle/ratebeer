@@ -1,6 +1,8 @@
 class RatingsController < ApplicationController
   def index
-    @ratings = Rating.all
+    return if request.format.html? && fragment_exist?('ratings_page_lists')
+
+    @ratings = Rating.recent
     @top_breweries = Brewery.top 3
     @top_beers = Beer.top 3
     @top_styles = Style.top 3

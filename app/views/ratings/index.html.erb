@@ -4,65 +4,64 @@
 <% else %>
 
 <br>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <h2>Our users have given total of <%= pluralize(@ratings.count, 'rating') %>! </h2>
+<% cache 'ratings_page_lists', expires_in:10.minutes do %>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Our users have given total of <%= pluralize(@ratings.count, 'rating') %>! </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>
+      <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseRatings"  >
+        Browse all ratings
+      </button>
+    </p>
+    <div class="collapse" id="collapseRatings">
+      <div class="card card-body">
+        <%= render 'list_ratings', ratings: @ratings %>
+      </div>
+    </div>
+      </div>
+      <div class="col">
+        <p>
+      <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseUsers"  >
+        Our most active raters top 3
+      </button>
+    </p>
+    <div class="collapse" id="collapseUsers">
+      <div class="card card-body">
+        <%= render 'list_users', users: @top_users %>
+      </div>
+    </div>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-       <p>
-    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseRatings"  >
-      Browse all ratings
-    </button>
-  </p>
-  <div class="collapse" id="collapseRatings">
-    <div class="card card-body">
-      <%= render 'list_ratings', ratings: @ratings %>
-    </div>
-  </div>
-    </div>
-    <div class="col">
-       <p>
-    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseUsers"  >
-      Our most active raters top 3
-    </button>
-  </p>
-  <div class="collapse" id="collapseUsers">
-    <div class="card card-body">
-      <%= render 'list_users', users: @top_users %>
-    </div>
-  </div>
-    </div>
-  </div>
-</div>
 
+  <br>
 
- 
+    <% if @ratings.count >= 5 %>
+      <h2>Last 5 ratings:</h2>
+      <%= render 'list_ratings', ratings: @ratings.recent %>
+    <% end %>
 
-  
+  <br>
+    <h2>Best breweries: </h2>
+    <%= render 'list_breweries', breweries: @top_breweries %>
+    
+  <br>
+    <h2>Best beers:</h2>
+    <%= render 'list_beers', beers: @top_beers %>
 
-<br>
+  <br>
+    <h2>Best styles:</h2>
+    <%= render 'list_styles', styles: @top_styles %>
 
-  <% if @ratings.count >= 5 %>
-    <h2>Last 5 ratings:</h2>
-    <%= render 'list_ratings', ratings: @ratings.recent %>
+  <br>
+
   <% end %>
-
-<br>
-  <h2>Best breweries: </h2>
-  <%= render 'list_breweries', breweries: @top_breweries %>
-  
-<br>
-  <h2>Best beers:</h2>
-  <%= render 'list_beers', beers: @top_beers %>
-
-<br>
-  <h2>Best styles:</h2>
-  <%= render 'list_styles', styles: @top_styles %>
-
-<br>
 
 <% end %>
 
