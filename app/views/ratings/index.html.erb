@@ -7,24 +7,15 @@
 <% cache 'ratings_page_lists', expires_in:10.minutes do %>
 
   <div class="container">
+    
     <div class="row">
+      
       <div class="col">
-        <h2>Our users have given total of <%= pluralize(@ratings.count, 'rating') %>! </h2>
+        <h2>Our users have given total of <%= pluralize(@ratings_count, 'rating') %>! </h2>
       </div>
     </div>
     <div class="row">
-      <div class="col">
-        <p>
-      <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseRatings"  >
-        Browse all ratings
-      </button>
-    </p>
-    <div class="collapse" id="collapseRatings">
-      <div class="card card-body">
-        <%= render 'list_ratings', ratings: @ratings %>
-      </div>
-    </div>
-      </div>
+      
       <div class="col">
         <p>
       <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseUsers"  >

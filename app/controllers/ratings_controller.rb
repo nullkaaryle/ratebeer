@@ -1,8 +1,10 @@
 class RatingsController < ApplicationController
+  # välimuisti+tietokantahaut
   def index
     return if request.format.html? && fragment_exist?('ratings_page_lists')
 
     @ratings = Rating.recent
+    @ratings_count = Rating.count
     @top_breweries = Brewery.top 3
     @top_beers = Beer.top 3
     @top_styles = Style.top 3

@@ -44,7 +44,18 @@ class User < ApplicationRecord
   end
 
   def self.top(how_many)
-    sorted_by_rating_in_desc_order = all.sort_by{ |u| -u.ratings.count }
-    sorted_by_rating_in_desc_order[0, how_many]
+    sql = %{
+      select users.*
+      from ratings
+      inner join users on users.id = ratings.user_id
+      group by users.id, ratings.user_id
+      order by count(*) desc
+      limit ?;
+    }
+
+    User.find_by_sql([sql, how_many])
+
+    #sorted_by_rating_in_desc_order = all.sort_by{ |u| -u.ratings.count }
+    #sorted_by_rating_in_desc_order[0, how_many]
   end
 end
