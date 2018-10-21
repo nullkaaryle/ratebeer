@@ -3,22 +3,23 @@
 <p> <strong> Ratebeer has <%= pluralize(@users.count, 'user') %>: </strong> </p>
 
 <table class="table table-hover">
+ 
   <thead>
     <tr>
-      <th> Username</th>
-      <th> Member since </th>
-      <th> Rated beers </th>
-      <th> Total ratings </th>
-      <th></th>
+      <th> Username       </th>
+      <th> Member since   </th>
+      <th> Rated beers    </th>
+      <th> Total ratings  </th>
     </tr>
   </thead>
+
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.username, user %></td>
-         <td><%= user.created_at.year %></td>
-        <td><%= user.beers.size %></td>
-        <td><%= user.ratings.size %></td>
+        <td>  <%= link_to user.username, user %>  </td>
+        <td> <%= user.created_at.year %>          </td>
+        <td>  <%= user.beers.size %>              </td>
+        <td>  <%= user.ratings.size %>            </td>
         <td>
           <% if current_user_is_admin && user.closed %>
             <span class="badge badge-info">account closed</span>
@@ -27,6 +28,7 @@
       </tr>
     <% end %>
   </tbody>
+
 </table>
 
 <br>
