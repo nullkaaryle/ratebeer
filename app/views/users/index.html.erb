@@ -18,7 +18,7 @@
       <tr>
         <td> <%= link_to user.username, user %>  </td>
         <td> <%= user.created_at.year %>         </td>
-        <td> <%= user.beers.size %>              </td>
+        <td> <%= user.beers.uniq.count %>              </td>
         <td> <%= user.ratings.size %>            </td>
         <td>
           <% if current_user_is_admin && user.closed %>

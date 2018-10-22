@@ -9,63 +9,70 @@
 
 </h2>
 
-<% if current_user_is_admin %>
- <%= link_to (@user.closed ? 'open account' : 'close account'), toggle_closed_user_path(@user.id), method: :post, class: "btn btn-danger" %>
-<% end %>
+    <% if current_user_is_admin %>
+    <%= link_to (@user.closed ? 'open account' : 'close account'), toggle_closed_user_path(@user.id), method: :post, class: "btn btn-secondary btn-sm" %>
+    <% end %>
+
+<br>
+<br>
 
 <p>
-  <strong>Member of: </strong>
+  <strong> Member of: </strong>
   <% if  @user.memberships.count > 0 %>
     <% @user.memberships.each do |membership| %>
       <li> 
-      <%= membership.beer_club.name %>
+        <%= membership.beer_club.name %> 
       </li> 
-      <% end %>
+    <% end %>
   <% else %>
-    <p> 
       <i> Is not a member in any beer club. </i>
-    </p>
   <% end %>
 </p>
+  <div class='user_ratings'>
+  <p>
+  <strong>Ratings:</strong> 
+    <% if  @user.ratings.count > 0 %>
+      Has made <%= pluralize(@user.ratings.count, 'rating') %>, average rating <%= round(@user.average_rating) %>
+      <ul>
+        <% @user.ratings.each do |rating| %>
+          <li> 
+            <%= rating.beer %>:<span class="badge badge-primary badge-pill"> <%= rating.score %>  </span> 
+            <% if @user == current_user %> 
+              <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul> 
+    <% else %>
+      <p> 
+        <i>Has not given any ratings. </i>
+      </p>
+    <% end %>
+  </p>
 
-<div class='user_ratings'>
-<p>
- <strong>Ratings:</strong>
-  <% if  @user.ratings.count > 0 %>
-    <p>Has made <%= pluralize(@user.ratings.count, 'rating') %>, average rating <%= round(@user.average_rating) %></p>
-    <ul>
-      <% @user.ratings.each do |rating| %>
-        <li> 
-          <%= rating.beer %>: <%= rating.score %>  
-          <% if @user == current_user %> 
-            <%= link_to 'delete', rating_path(rating.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul> 
-  <% else %>
-    <p> 
-      <i>Has not given any ratings. </i>
-    </p>
-  <% end %>
-</p>
+  </div>
 
-</div>
+  <p>
+    <% if @user.favorite_brewery %>
+      <strong>Favorite brewery is:</strong> <%= @user.favorite_brewery.name %>
+    <% end %>
+  </p>
 
-<p>
-  <% if @user.favorite_brewery %>
-    <strong>Favorite brewery is:</strong> <%= @user.favorite_brewery.name %>
-  <% end %>
-</p>
+  <p>
+    <% if @user.favorite_style %>
+      <strong>Favorite style is:</strong> <%= @user.favorite_style %>
+    <% end %>
+  </p>
 
-<p>
-  <% if @user.favorite_style %>
-    <strong>Favorite style is:</strong> <%= @user.favorite_style %>
-  <% end %>
-</p>
+<br>
 
 <% if @user == current_user %> 
   <%= edit_and_destroy_buttons(@user) %>
 <% end %>
+  
+<br>
+<br>
 
-<%= link_to 'Back', users_path %>
+<p>
+  <%= link_to 'Back to users', users_path %>
+</p>
